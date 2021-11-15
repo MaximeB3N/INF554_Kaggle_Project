@@ -1,5 +1,8 @@
 #Big file needed
-abstracts.txt
+*abstracts.txt
+
+#Submission file
+*submission.csv
 
 #Temp word files
 ~$*
