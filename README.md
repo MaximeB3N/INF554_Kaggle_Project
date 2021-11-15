@@ -1,2 +1,3 @@
 # INF554_Kaggle_Project
-On est là quoi
+Link for abstracts.txt file (1G)
+https://www.dropbox.com/s/2s3lmm7utjbkg5e/abstracts.txt?dl=0
