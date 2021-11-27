@@ -1,6 +1,7 @@
 #Big file needed
 abstracts.txt
 *.json
+/data
 #Temp word files
 ~$*
 
