@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import networkx as nx
 from sklearn.linear_model import Lasso
-import matplotlib.pyplot as plt
 
 os.getcwd()
 
@@ -21,6 +20,13 @@ n_nodes = G.number_of_nodes()
 n_edges = G.number_of_edges() 
 print('Number of nodes:', n_nodes)
 print('Number of edges:', n_edges)
+
+
+
+for i in range(n_nodes):
+    for j in range(n_nodes):
+        
+
 
 # computes structural features for each node
 core_number = nx.core_number(G)
@@ -52,4 +58,4 @@ y_pred = reg.predict(X_test)
 df_test['hindex'] = pd.Series(np.round_(y_pred, decimals=3))
 
 
-#df_test.loc[:,["author","hindex"]].to_csv('submissions/baseline_submission.csv', index=False)
+df_test.loc[:,["author","hindex"]].to_csv('submissions/baseline_submission.csv', index=False)

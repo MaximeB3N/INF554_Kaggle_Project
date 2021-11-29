@@ -1,0 +1,41 @@
+Idées baseline
+
+•	Tracer le graphe des co-auteurs
+•	Extraire des communautés
+Pondérer les arêtes en fonction de la similarité des articles de deux auteurs
+
+•	Classifier les papiers
+
+•	
+
+
+On a : vectorisation d’un texte
+Texte => vecteur de 200 coordonnées
+Se prête bien au clustering etc
+
+Graphe : 
+Générer un 2e graphe : 
+vecteurs [id_auteur, id_article correspondant]
+Nodes connectés ? Pondéré de « article même cluster » et « 1/distance_auteurs »
+Puis attribuer à un nœud la moyenne des voisins ? (pb de propagation)
+Attribuer à un auteur la moyenne de ses articles ??
+
+
+
+Extraire des indicateurs de perf des auteurs (depuis graphe et abstracts):
+
+Degré (g)
+Degré des collaborateurs (g)
+taux de spécialisation [1-5] (txt)
+cluster correspondant [1-5] (txt)
+
+
+
+
+
+
+Fichier : 
+id:{vector:, cluster:}
+
+Linear regression from :
+?
