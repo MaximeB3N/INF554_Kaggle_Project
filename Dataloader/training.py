@@ -74,16 +74,17 @@ def authors_to_vectors(hashtable_vectors, hashtable_papers):
         shape = len(list(hashtable_vectors.values())[0])
         
         flag = True
+        hash_authors_vectors[author] = np.zeros(shape)
         for id_paper in hashtable_papers[author]:
+
             if id_paper in hashtable_vectors:
-                hash_authors_vectors[author] = hashtable_vectors[id_paper]
-                flag = False
-                break
-            
-        if flag:
-            hash_authors_vectors[author] = np.zeros(shape)
-        
+                hash_authors_vectors[author] += hashtable_vectors[id_paper]
+
         #break
+        if np.any(hash_authors_vectors[author]!=0.):
+            norm = (hash_authors_vectors[author] ** 2).sum() ** (1 / 2)
+            hash_authors_vectors[author] /= norm
+            
     return hash_authors_vectors
 
 

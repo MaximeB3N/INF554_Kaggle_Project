@@ -1,6 +1,8 @@
 import numpy as np
 
-pathVectors = "data/vectors.npy"
+pathVectors = "data/vectors_normalized.npy"
+#pathVectors = "data/vectors.npy"
+
 vectors = np.load(pathVectors)
 
 zeros = np.zeros(vectors.shape[1]-1)

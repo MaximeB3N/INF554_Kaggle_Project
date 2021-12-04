@@ -2,6 +2,7 @@ from Dataloader.training import *
 import numpy as np
 
 
+
 pathData = "data/x.npy"
 pathAuthor = "data/author_papers.txt"
 pathLabels = "data/train.csv"
@@ -15,4 +16,4 @@ hash_authors_vectors = authors_to_vectors(hash_vector,author_paper)
 
 vectors = numpy_author_vector(hash_authors_vectors)
 
-np.save("data/vectors.npy",vectors)
+np.save("data/vectors_normalized.npy",vectors)
