@@ -1,5 +1,11 @@
-#Big file needed
+#Big files needed
 *abstracts.txt
+*Vectors_and_clusters.json
+*N.npy
+*E.npy
+*labels.npy
+*vectors.npy
+*vectors_normalized.npy
 
 #Submission file
 *submission.csv

@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import networkx as nx
 from sklearn.linear_model import Lasso
 
@@ -15,6 +16,18 @@ n_test = df_test.shape[0]
 
 # load the graph
 G = nx.read_edgelist('data/coauthorship.edgelist', delimiter=' ', nodetype=int)
+#SG = G.subgraph(list(G.nodes)[:10000])
+#SG = nx.descendants(G, 2280499549)
+source = 2280499549
+nodes = {source}
+for _ in range(100):
+    nodes_copy = nodes.copy()
+    for node in nodes_copy:
+        for n in G.neighbors(node):
+            nodes.add(n)
+SG = G.subgraph(nodes)
+nx.draw_networkx(SG, node_size=1, with_labels=False)
+plt.show()
 n_nodes = G.number_of_nodes()
 n_edges = G.number_of_edges()
 print('Number of nodes:', n_nodes)
@@ -51,4 +64,4 @@ y_pred = reg.predict(X_test)
 df_test['hindex'] = pd.Series(np.round_(y_pred, decimals=3))
 
 
-df_test.loc[:,["author","hindex"]].to_csv('submissions/submission.csv', index=False)
+df_test.loc[:,["author","hindex"]].to_csv('submissions/test.csv', index=False)
