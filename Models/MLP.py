@@ -1,12 +1,14 @@
 import torch
 from torch import nn
 import numpy as np 
+from tqdm import tqdm
+
 
 class MLP(nn.Module):
     '''
     Multilayer Perceptron.
     '''
-    def __init__(self,in_shape, hidden_params, out_shape=1):
+    def __init__(self,in_shape, hidden_params, out_shape=1, epochs=30, lr=0.001, verbose=True):
         super().__init__()
 
         self.in_shape = in_shape
@@ -54,3 +56,24 @@ class MLP(nn.Module):
             
         out = self.linOut(out)
         return out
+
+    def predict(self, x):
+        '''Predict'''
+        out = self.forward(x)
+        return out.detach().numpy()
+
+    def fit(self, X, y):
+        '''Fit the model'''
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+        self.loss_fn = torch.nn.MSELoss()
+        self.train()
+        dataset = torch.utils.data.TensorDataset(torch.from_numpy(X), torch.from_numpy(y), batch_size=self.batch_size)
+
+        for epoch, x, y in enumerate(tqdm(dataset)):
+            self.optimizer.zero_grad()
+            y_pred = self.forward(x)
+            loss = self.loss_fn(y_pred, y)
+            loss.backward()
+            self.optimizer.step()
+            if self.verbose:
+                print(f"Epoch {epoch+1}/{self.epochs} - Loss: {loss.item():.4f}")
