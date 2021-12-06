@@ -34,8 +34,5 @@ cluster correspondant [1-5] (txt)
 
 
 
-Fichier : 
-id:{vector:, cluster:}
-
-Linear regression from :
-?
+Implémenter deepwalk & word2vec, tester
++ linear regression avec h_indexs
