@@ -3,7 +3,8 @@ import numpy as np
 
 
 
-pathData = "data/x.npy"
+#pathData = "data/x.npy"
+pathData = "/Users/maximebonnin/Notebooks/3A_Notebook/INF554/word2vec-pytorch/data/results.npy"
 pathAuthor = "data/author_papers.txt"
 pathLabels = "data/train.csv"
 
@@ -16,4 +17,4 @@ hash_authors_vectors = authors_to_vectors(hash_vector,author_paper)
 
 vectors = numpy_author_vector(hash_authors_vectors)
 
-np.save("data/vectors_normalized.npy",vectors)
+np.save("data/vectors_cbow_own_normalized.npy",vectors)
