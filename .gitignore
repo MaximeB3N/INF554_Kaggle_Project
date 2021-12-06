@@ -2,6 +2,7 @@
 abstracts.txt
 *.json
 *.xml
+Models/
 #Temp word files
 ~$*
 
