@@ -4,6 +4,7 @@ abstracts.txt
 *.xml
 Models/
 *.npy
+*.pt
 #Temp word files
 ~$*
 
