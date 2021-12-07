@@ -31,8 +31,10 @@ cluster correspondant [1-5] (txt)
 
 
 
+Graph => Word2vec, embedding (vecteurs taille 128)
+Abstracts => idem
+Somme des embedding des abstracts
+Concatene embeddings abstracts & graphs : vecteur 256
+Ajouter degré & core number ?
 
-
-
-Implémenter deepwalk & word2vec, tester
-+ linear regression avec h_indexs
+NLP ?
