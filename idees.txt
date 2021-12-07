@@ -37,4 +37,13 @@ Somme des embedding des abstracts
 Concatene embeddings abstracts & graphs : vecteur 256
 Ajouter degré & core number ?
 
-NLP ?
+Tester avec linreg
+tester avec MLP
+
+
+
+Deepwalk : 128-10-10 ok (8min), 137 avec lin reg
+128-30-10 : 30min, 134 avec lin reg
+128-30->10 : infini ?
+
+ajouter coreN et degré : => 120
