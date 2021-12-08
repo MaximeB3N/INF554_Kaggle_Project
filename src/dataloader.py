@@ -5,7 +5,8 @@ import networkx as nx
 import torch
 from tqdm import tqdm
 
-from constants import path_edges, path_train_set, path_test_set, path_adjacency
+
+
 
 
 def normalise_adjacency(A):
@@ -39,7 +40,7 @@ def correct_order(N, nodes):
     return M, count
 
 
-def load_partial_dataset(n_train, n_test, path_features, device):
+def load_partial_dataset(n_train, n_test, path_features, path_edges, path_train_set, device):
     """Load a partial dataset"""
 
     # Load the graph
@@ -92,7 +93,7 @@ def load_partial_dataset(n_train, n_test, path_features, device):
     return adj, features, y_train, y_test
 
 
-def compute_and_save_full_adjacency():
+def compute_and_save_full_adjacency(path_edges, path_adjacency):
     """Compute and save adjacency matrix of the full graph"""
     # Load the graph
     G = nx.read_edgelist(path_edges, delimiter=' ', nodetype=int)
@@ -103,7 +104,7 @@ def compute_and_save_full_adjacency():
     return adj
 
 
-def load_train_dataset(path_features, device, prop_train=0.8, compute_adjacency=False):
+def load_train_dataset(path_features, path_edges, path_train_set, path_adjacency, device, prop_train=0.8, compute_adjacency=False):
     """Load the train dataset"""
 
     # Load the graph
@@ -155,7 +156,7 @@ def load_train_dataset(path_features, device, prop_train=0.8, compute_adjacency=
 
     # Load adjacency sparse matrix
     if compute_adjacency:
-        adj = compute_and_save_full_adjacency().to(device)
+        adj = compute_and_save_full_adjacency(path_edges, path_adjacency).to(device)
     else:
         adj = torch.load(path_adjacency).to(device)
 

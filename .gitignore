@@ -7,6 +7,7 @@
 *vectors.npy
 *vectors_normalized.npy
 *vectors_cbow_own_normalized.npy
+*features.npy
 
 #Submission file
 *submission.csv

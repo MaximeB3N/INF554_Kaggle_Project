@@ -38,13 +38,17 @@ load_path = config['load_path']
 save_path = config['save_path']
 losses_path = config['losses_path']
 path_features = config['path_features']
+path_edges = config['path_edges']
+path_train_set = config['path_train_set']
+path_test_set = config['path_test_set']
+path_adjacency = config['path_adjacency']
 
 device = torch.device('cpu')
 #device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 # Load the dataset
-adj, features, y_train, y_test, idx_train, idx_test = load_train_dataset(path_features, device, 0.8, False)
+adj, features, y_train, y_test, idx_train, idx_test = load_train_dataset(path_features, path_edges, path_train_set, path_adjacency, device, 0.8, False)
 n_train = len(idx_train)
 n_test = len(idx_test)
 
