@@ -45,15 +45,6 @@ https://www.dropbox.com/s/2s3lmm7utjbkg5e/abstracts.txt?dl=0
     
 ```
 
-- **utils/dataloader.py** - data loader for WikiText-2 and WikiText103 datasets
-- **utils/model.py** - model architectures
-- **utils/trainer.py** - class for model training and evaluation
-
-- **train.py** - script for training
-- **config.yaml** - file with training parameters
-- **weights/** - folder where expriments artifacts are stored
-- **notebooks/Inference.ipynb** - demo of how embeddings are used
-
 ## Usage
 
 ```
@@ -71,12 +62,3 @@ python3 train_regressors.py
 ```
 python3 train_gcn.py --config Models/GCN/train_gcn/config_gcn.py
 ```
-
-
-Before running the command, change the training parameters in the config.yaml, most important:
-
-- model_name ("skipgram", "cbow")
-- dataset ("WikiText2", "WikiText103")
-- model_dir (directory to store experiment artifacts, should start with "weights/")
-
-
