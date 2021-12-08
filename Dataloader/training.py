@@ -2,6 +2,23 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+def get_set(ids):
+
+    set_ids = {}
+    for i, id in enumerate(ids):
+        set_ids[id] = i
+
+    return set_ids
+
+def get_indices(author_ids, set_author_index):
+    indices = []
+
+    for id in author_ids:
+        indices.append(set_author_index[id])
+
+    return np.array(indices)
+
+
 def load_vectorized_text_numpy_data(path):
     """
     Loads a numpy file from the given path and extract the data and ids.
