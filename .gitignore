@@ -11,7 +11,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.pt
+*loss.json
 # C extensions
 *.so
 
