@@ -19,13 +19,13 @@ class Regressors:
         self.verbose = verbose
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.models = {
-            'MLP': MLP(in_shape, hidden_params, epochs=epochs, lr=lr, batch_size=batch_size, verbose=verbose).to(device)
-            # 'LinearRegression': LinearRegression(),
-            # 'RandomForestRegressor': RandomForestRegressor(),
-            # 'GradientBoostingRegressor': GradientBoostingRegressor(),
-            # 'AdaBoostRegressor': AdaBoostRegressor(),
-            # 'BaggingRegressor': BaggingRegressor(),
-            # 'SVR': SVR()
+            'MLP': MLP(in_shape, hidden_params, epochs=epochs, lr=lr, batch_size=batch_size, verbose=verbose).to(device),
+            'LinearRegression': LinearRegression(),
+            'RandomForestRegressor': RandomForestRegressor(),
+            'GradientBoostingRegressor': GradientBoostingRegressor(),
+            'AdaBoostRegressor': AdaBoostRegressor(),
+            'BaggingRegressor': BaggingRegressor(),
+            'SVR': SVR()
         }
 
     def fit(self, X, y):
