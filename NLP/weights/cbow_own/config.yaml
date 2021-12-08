@@ -1,0 +1,14 @@
+PathModel: weights/cbow_own3/checkpoint_017.pt
+checkpoint_frequency: true
+data_dir: data/
+dataset: Own
+epochs: 30
+learning_rate: 0.008
+model_dir: weights/cbow_own4
+model_name: cbow
+optimizer: Adam
+shuffle: true
+train_batch_size: 50
+train_steps: null
+val_batch_size: 50
+val_steps: null

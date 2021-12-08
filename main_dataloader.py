@@ -18,6 +18,9 @@ y = dataset.hindex
 X_train, X_test, y_train, y_test = train_test_split(
      X, y, test_size=0.3, random_state=42)
 
+X_train = X_train[:]
+y_train = y_train[:]
+
 IN_SHAPE = len(X[0])
 HIDDEN_PARAMS = [256,64]
 EPOCHS= 200
@@ -27,19 +30,19 @@ VERBOSE=True
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 loss_fn = torch.nn.MSELoss()
 
-# regressors = Regressors(IN_SHAPE, HIDDEN_PARAMS,epochs=EPOCHS,lr=LR,
-#                         batch_size=BATCH_SIZE,verbose=VERBOSE)
+regressors = Regressors(IN_SHAPE, HIDDEN_PARAMS,epochs=EPOCHS,lr=LR,
+                        batch_size=BATCH_SIZE,verbose=VERBOSE)
 
-# regressors.fit(X_train,y_train)
-# scores = regressors.score(X_test, y_test)
+regressors.fit(X_train,y_train)
+scores = regressors.score(X_test, y_test)
 
-model = MLP(IN_SHAPE, HIDDEN_PARAMS,epochs=EPOCHS,lr=LR,
-                         batch_size=BATCH_SIZE,verbose=VERBOSE).to(device)
-model.run(X_train, y_train, X_test, y_test)
+# model = MLP(IN_SHAPE, HIDDEN_PARAMS,epochs=EPOCHS,lr=LR,
+#                          batch_size=BATCH_SIZE,verbose=VERBOSE).to(device)
+# model.run(X_train, y_train, X_test, y_test)
 
-y_pred = torch.from_numpy(model.predict(X_test)).to(device)
-y_test = torch.unsqueeze(torch.tensor(y_test).to(device),1)
+# y_pred = torch.from_numpy(model.predict(X_test)).to(device)
+# y_test = torch.unsqueeze(torch.tensor(y_test).to(device),1)
 
-torch.save(model,f"data/Models/modelMLP_{EPOCHS}_{LR}_{BATCH_SIZE}.pt")
-score = loss_fn(y_pred, y_test)
-print(f"Score : {score}")
+# torch.save(model,f"data/Models/modelMLP_{EPOCHS}_{LR}_{BATCH_SIZE}.pt")
+# score = loss_fn(y_pred, y_test)
+# print(f"Score : {score}")

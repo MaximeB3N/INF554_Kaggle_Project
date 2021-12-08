@@ -9,7 +9,7 @@ abstracts.txt
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.pt
 # C extensions
 *.so
 
