@@ -135,11 +135,11 @@ def load_train_dataset(path_features, device, prop_train=0.8, compute_adjacency=
     y_test = torch.tensor(y_test, dtype=torch.float32).to(device)
 
     # Load features
-    """N = np.load(path_features)
+    N = np.load(path_features)
     N, changes = correct_order(N, nodes)
     print(str(changes) + ' changes!')
-    np.save('data/features.npy', N)"""
-    N = np.load('data/features.npy')
+    np.save('data/features.npy', N)
+    #N = np.load('data/features.npy')
     author_ids = N[:,0].astype(int)
 
     # Collect train and test indices
