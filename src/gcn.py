@@ -16,7 +16,6 @@ class GCN(nn.Module):
 
     def forward(self, x_in, adj):
         
-        #Please insert your code for Task 5 here
         z0 = self.relu(self.fc1(adj.matmul(torch.tensor(x_in, dtype=torch.float32))))
         z0 = self.dropout(z0)
         z1 = self.relu(self.fc2(adj @ z0))

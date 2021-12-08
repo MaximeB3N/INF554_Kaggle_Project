@@ -5,6 +5,13 @@ import networkx as nx
 import torch
 
 
+# Paths
+path_edges = 'data/coauthorship.edgelist'
+path_train_set = 'data/train.csv'
+path_test_set = 'data/test.csv'
+path_adjacency = 'data/adjacency.pt'
+
+
 
 def normalise_adjacency(A):
     """Normalise sparse adjacency matrix of a graph"""
@@ -25,19 +32,18 @@ def sparse_to_torch_sparse(M):
     return torch.sparse.FloatTensor(indices, values, shape)
 
 
-def load_partial_dataset(n_train, n_test, device):
-    """Load the dataset"""
+def load_partial_dataset(n_train, n_test, path_features, device):
+    """Load a partial dataset"""
 
     # Load the graph
-    G = nx.read_edgelist('data/coauthorship.edgelist', delimiter=' ', nodetype=int)
+    G = nx.read_edgelist(path_edges, delimiter=' ', nodetype=int)
     nodes = np.array(list(G.nodes))
 
     # Read h indexes
-    df_train = pd.read_csv('data/train.csv')
-    df_test = pd.read_csv('data/test.csv')
+    df_train = pd.read_csv(path_train_set)
 
     # Select a random permutation
-    indices = np.arange(110000)
+    indices = np.arange(n_train + n_test)
     indices = np.random.permutation(indices)
 
     # Split into train and test sets
@@ -54,14 +60,14 @@ def load_partial_dataset(n_train, n_test, device):
     adjacency = nx.convert_matrix.to_scipy_sparse_matrix(G)
 
     # Load features
-    N = np.load('data/vectors_normalized.npy')
+    N = np.load(path_features)
     author_ids = N[:,0].astype(int)
 
     # Collect train and test indices
     idx_train = np.array([np.argwhere(author_ids==auth) for auth in authors_train])
     idx_test = np.array([np.argwhere(author_ids==auth) for auth in authors_test])
-    idx_train = idx_train.reshape(len(authors_train))
-    idx_test = idx_test.reshape(len(authors_test))
+    idx_train = idx_train.reshape(n_train)
+    idx_test = idx_test.reshape(n_test)
     idx = np.concatenate((idx_train, idx_test))
 
     # Add hindex to the features
@@ -72,10 +78,74 @@ def load_partial_dataset(n_train, n_test, device):
 
     features = N[idx]
     features = torch.tensor(features).to(device)
-    n = G.number_of_nodes()
-    m = G.number_of_edges()
 
     adj = normalise_adjacency(sp.csr_matrix(adjacency)) 
-    adj = sparse_to_torch_sparse(sp.csr_matrix(adjacency)).to(device)
+    adj = sparse_to_torch_sparse(sp.csr_matrix(adj)).to(device)
+
+    return adj, features, y_train, y_test
+
+
+def compute_and_save_full_adjacency():
+    """Compute and save adjacency matrix of the full graph"""
+    # Load the graph
+    G = nx.read_edgelist(path_edges, delimiter=' ', nodetype=int)
+    adjacency = nx.convert_matrix.to_scipy_sparse_matrix(G)
+    adj = normalise_adjacency(sp.csr_matrix(adjacency)) 
+    adj = sparse_to_torch_sparse(sp.csr_matrix(adj))
+    torch.save(adj, path_adjacency)
+    return adj
+
+
+def load_train_dataset(path_features, device, prop_train=0.8, compute_adjacency=False):
+    """Load the train dataset"""
+
+    # Load the graph
+    G = nx.read_edgelist(path_edges, delimiter=' ', nodetype=int)
+    nodes = np.array(list(G.nodes))
+
+    # Read h indexes
+    df_train = pd.read_csv(path_train_set)
+    n = df_train.shape[0]
+    n_train = int(np.floor(prop_train * n))
+    n_test = n - n_train
+
+    # Select a random permutation
+    indices = np.arange(n)
+    indices = np.random.permutation(indices)
+
+    # Split into train and test sets
+    y_train = df_train['hindex'][indices[:n_train]].to_numpy()
+    authors_train = df_train['author'][indices[:n_train]]
+    y_test = df_train['hindex'][indices[-n_test:]].to_numpy()
+    authors_test = df_train['author'][indices[-n_test:]]
+    y_train = torch.tensor(y_train, dtype=torch.float32).to(device)
+    y_test = torch.tensor(y_test, dtype=torch.float32).to(device)
+
+    # Load features
+    N = np.load(path_features)
+    author_ids = N[:,0].astype(int)
+
+    # Collect train and test indices
+    idx_train = np.array([np.argwhere(author_ids==auth) for auth in authors_train])
+    idx_test = np.array([np.argwhere(author_ids==auth) for auth in authors_test])
+    idx_train = idx_train.reshape(n_train)
+    idx_test = idx_test.reshape(n_test)
+
+    # Add hindex to the features
+    for i in idx_train:
+        N[i,0] = df_train[df_train['author'] == author_ids[i]]['hindex']
+    for i in idx_test:
+        N[i,0] = -1.0
+
+    features = N
+    s = features[:,1:].sum(axis=1)
+    features = torch.tensor(features).to(device)
+    print(np.sum(s != 0))
+
+    # Load adjacency sparse matrix
+    if compute_adjacency:
+        adj = compute_and_save_full_adjacency().to(device)
+    else:
+        adj = torch.load(path_adjacency).to(device)
 
     return adj, features, y_train, y_test, idx_train, idx_test

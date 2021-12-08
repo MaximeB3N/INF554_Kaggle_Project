@@ -6,6 +6,7 @@
 *labels.npy
 *vectors.npy
 *vectors_normalized.npy
+*vectors_cbow_own_normalized.npy
 
 #Submission file
 *submission.csv
