@@ -11,8 +11,9 @@ from utils import get_lr
 # Hyperparameters
 epochs = 5000
 n_hidden_1 = 256
-n_hidden_2 = 32
-learning_rate = 1
+n_hidden_2 = 128
+n_hidden_3 = 32
+learning_rate = 1e-1
 dropout_rate = 0.5
 lr_function = lambda epoch: 0.9995 ** epoch
 n_train = 100000
@@ -36,11 +37,9 @@ n_train = len(idx_train)
 n_test = len(idx_test)
 
 # Create the model and specify the optimizer
+model = GCN(features.shape[1], n_hidden_1, n_hidden_2, n_hidden_3, dropout_rate).to(device)
 if load:
-    model = GCN(features.shape[1], n_hidden_1, n_hidden_2, dropout_rate).to(device)
     model.load_state_dict(torch.load(load_path))
-else:
-    model = GCN(features.shape[1], n_hidden_1, n_hidden_2, dropout_rate).to(device)
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 loss = nn.MSELoss()
 scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_function)

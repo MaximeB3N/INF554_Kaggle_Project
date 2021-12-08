@@ -3,6 +3,7 @@ import scipy.sparse as sp
 import pandas as pd
 import networkx as nx
 import torch
+from tqdm import tqdm
 
 
 # Paths
@@ -30,6 +31,18 @@ def sparse_to_torch_sparse(M):
     values = torch.from_numpy(M.data)
     shape = torch.Size(M.shape)
     return torch.sparse.FloatTensor(indices, values, shape)
+
+
+def correct_order(N, nodes):
+    """Reorganize N to follow the same order than nodes"""
+    M = np.zeros_like(N)
+    count = 0
+    for i, node in enumerate(tqdm(nodes)):
+        idx = np.argwhere(N[:,0]==node)
+        if idx != i:
+            count += 1
+        M[i,:] = N[idx,:]
+    return M, count
 
 
 def load_partial_dataset(n_train, n_test, path_features, device):
@@ -122,7 +135,11 @@ def load_train_dataset(path_features, device, prop_train=0.8, compute_adjacency=
     y_test = torch.tensor(y_test, dtype=torch.float32).to(device)
 
     # Load features
-    N = np.load(path_features)
+    """N = np.load(path_features)
+    N, changes = correct_order(N, nodes)
+    print(str(changes) + ' changes!')
+    np.save('data/features.npy', N)"""
+    N = np.load('data/features.npy')
     author_ids = N[:,0].astype(int)
 
     # Collect train and test indices
@@ -132,9 +149,9 @@ def load_train_dataset(path_features, device, prop_train=0.8, compute_adjacency=
     idx_test = idx_test.reshape(n_test)
 
     # Add hindex to the features
-    for i in idx_train:
+    for i in tqdm(idx_train):
         N[i,0] = df_train[df_train['author'] == author_ids[i]]['hindex']
-    for i in idx_test:
+    for i in tqdm(idx_test):
         N[i,0] = -1.0
 
     features = N
