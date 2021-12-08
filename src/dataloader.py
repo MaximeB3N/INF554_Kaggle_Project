@@ -5,13 +5,7 @@ import networkx as nx
 import torch
 from tqdm import tqdm
 
-
-# Paths
-path_edges = 'data/coauthorship.edgelist'
-path_train_set = 'data/train.csv'
-path_test_set = 'data/test.csv'
-path_adjacency = 'data/adjacency.pt'
-
+from constants import path_edges, path_train_set, path_test_set, path_adjacency
 
 
 def normalise_adjacency(A):

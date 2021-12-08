@@ -1,0 +1,13 @@
+epochs: 5000
+n_hidden_1: 256
+n_hidden_2: 128
+n_hidden_3: 32
+learning_rate: 0.1
+dropout_rate: 0.5
+
+load: False
+save: True
+load_path: 'trained_models/model_2.pt'
+save_path: 'trained_models/model_full.pt'
+losses_path: 'trained_models/loss_full.csv'
+path_features: 'data/authors_vectors.npy'

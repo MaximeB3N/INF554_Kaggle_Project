@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 class GCN(nn.Module):
-    """Simple GCN model"""
+    """GCN model"""
     def __init__(self, n_feat, n_hidden_1, n_hidden_2, n_hidden_3, dropout):
         super(GCN, self).__init__()
 
